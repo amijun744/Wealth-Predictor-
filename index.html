@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wealth Predictor Pro</title>
+    <!-- Link to your external CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Animated Glow Follower -->
+    <div class="cursor" id="cursor"></div>
+
+    <div class="container">
+        <!-- Result Display -->
+        <div class="tile main-display">
+            <h1 class="label-heading">Projected Wealth</h1>
+            <div class="result" id="totalWealth">$0</div>
+        </div>
+
+        <!-- Input Grid -->
+        <div class="tile">
+            <label>Current Net Worth ($)</label>
+            <input type="number" id="principal" value="10000" oninput="calculate()">
+        </div>
+
+        <div class="tile">
+            <label>Monthly Contribution ($)</label>
+            <input type="number" id="monthly" value="500" oninput="calculate()">
+        </div>
+
+        <div class="tile">
+            <label>Years to Grow</label>
+            <input type="number" id="years" value="10" oninput="calculate()">
+        </div>
+
+        <div class="tile">
+            <label>Annual Return (%)</label>
+            <input type="number" id="rate" value="7" oninput="calculate()">
+        </div>
+    </div>
+
+    <script>
+        // Mouse follow logic for the background glow
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Financial Calculation Logic
+        function calculate() {
+            const P = parseFloat(document.getElementById('principal').value) || 0;
+            const PMT = parseFloat(document.getElementById('monthly').value) || 0;
+            const t = parseFloat(document.getElementById('years').value) || 0;
+            const annualRate = (parseFloat(document.getElementById('rate').value) || 0) / 100;
+            
+            const r = annualRate / 12; 
+            const n = t * 12; 
+
+            let futureValue;
+            if (r === 0) {
+                futureValue = P + (PMT * n);
+            } else {
+                const compoundPrincipal = P * Math.pow(1 + r, n);
+                const compoundSeries = PMT * ((Math.pow(1 + r, n) - 1) / r);
+                futureValue = compoundPrincipal + compoundSeries;
+            }
+
+            document.getElementById('totalWealth').innerText = 
+                new Intl.NumberFormat('en-US', { 
+                    style: 'currency', 
+                    currency: 'USD', 
+                    maximumFractionDigits: 0 
+                }).format(futureValue);
+        }
+        calculate(); // Initialize on load
+    </script>
+</body>
+</html>
