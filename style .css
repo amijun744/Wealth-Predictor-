@@ -1,15 +1,28 @@
-/* Core Theme Variables */
+/* 1. Global Variables & Modern Resets */
 :root {
-    --glass: rgba(255, 255, 255, 0.05);
-    --border: rgba(255, 255, 255, 0.1);
-    --accent: #00ffcc;
-    --bg: #0a0a0c;
+    --bg: #030303;
+    --glass-surface: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --accent: #00ffcc; /* Your signature mint/teal */
+    --accent-glow: rgba(0, 255, 204, 0.2);
+    --text-main: #f0f0f0;
+    --text-dim: #888888;
+    --font-stack: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+    cursor: default;
 }
 
 body {
     background-color: var(--bg);
-    color: white;
-    font-family: 'Inter', sans-serif;
+    /* Subtle mesh background to give depth */
+    background-image: 
+        radial-gradient(at 0% 0%, rgba(0, 255, 204, 0.05) 0px, transparent 50%),
+        radial-gradient(at 100% 100%, rgba(100, 100, 255, 0.05) 0px, transparent 50%);
+    color: var(--text-main);
+    font-family: var(--font-stack);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -18,83 +31,116 @@ body {
     overflow: hidden;
 }
 
-/* Bento Grid Layout */
+/* 2. Bento Grid Container */
 .container {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-    max-width: 900px;
+    grid-auto-rows: minmax(140px, auto);
+    gap: 16px;
+    max-width: 1000px;
+    width: 95%;
     padding: 20px;
-    z-index: 1;
+    z-index: 10;
 }
 
-/* Glassmorphism Tile Styling */
+/* 3. Glass Tile Aesthetics */
 .tile {
-    background: var(--glass);
-    backdrop-filter: blur(12px);
-    border: 1px solid var(--border);
-    border-radius: 24px;
-    padding: 25px;
-    transition: transform 0.3s ease, border-color 0.3s ease;
+    background: var(--glass-surface);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-border);
+    border-radius: 28px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .tile:hover {
-    transform: translateY(-5px);
-    border-color: var(--accent);
+    transform: translateY(-8px) scale(1.01);
+    border-color: rgba(0, 255, 204, 0.4);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 
+                inset 0 0 20px rgba(255, 255, 255, 0.02);
 }
 
+/* 4. Feature Tiles */
 .main-display {
     grid-column: span 2;
+    grid-row: span 1;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(0,255,204,0.02) 100%);
 }
 
 .label-heading {
     margin: 0;
-    font-size: 0.9rem;
+    font-size: 0.75rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    color: #888;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
 }
 
 .result {
-    font-size: 3.5rem;
-    font-weight: 800;
+    font-size: 4rem;
+    font-weight: 900;
     color: var(--accent);
-    margin-top: 10px;
+    text-shadow: 0 0 30px var(--accent-glow);
+    margin-top: 8px;
+    letter-spacing: -2px;
 }
 
+/* 5. Inputs & Forms */
 label {
     display: block;
-    font-size: 0.8rem;
-    margin-bottom: 10px;
-    color: #aaa;
+    font-size: 0.85rem;
+    font-weight: 500;
+    margin-bottom: 12px;
+    color: var(--text-dim);
 }
 
 input {
     width: 100%;
     background: transparent;
     border: none;
-    border-bottom: 1px solid var(--border);
-    color: white;
-    font-size: 1.2rem;
-    padding: 5px 0;
+    border-bottom: 2px solid var(--glass-border);
+    color: var(--text-main);
+    font-size: 1.5rem;
+    font-weight: 600;
+    padding: 8px 0;
     outline: none;
+    transition: border-color 0.3s ease;
+    cursor: text;
 }
 
 input:focus {
     border-color: var(--accent);
 }
 
-/* Interactive Cursor Glow */
+/* 6. Animated Cursor Glow */
 .cursor {
-    width: 300px;
-    height: 300px;
-    background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 70%);
+    width: 450px;
+    height: 450px;
+    background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
     position: fixed;
     pointer-events: none;
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    z-index: 0;
+    z-index: 1;
+    mix-blend-mode: screen;
+    filter: blur(40px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr 1fr;
+    }
+    .main-display {
+        grid-column: span 2;
+    }
+    .result {
+        font-size: 2.8rem;
+    }
 }
