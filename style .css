@@ -1,0 +1,100 @@
+/* Core Theme Variables */
+:root {
+    --glass: rgba(255, 255, 255, 0.05);
+    --border: rgba(255, 255, 255, 0.1);
+    --accent: #00ffcc;
+    --bg: #0a0a0c;
+}
+
+body {
+    background-color: var(--bg);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+/* Bento Grid Layout */
+.container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    padding: 20px;
+    z-index: 1;
+}
+
+/* Glassmorphism Tile Styling */
+.tile {
+    background: var(--glass);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    padding: 25px;
+    transition: transform 0.3s ease, border-color 0.3s ease;
+}
+
+.tile:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.main-display {
+    grid-column: span 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.label-heading {
+    margin: 0;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #888;
+}
+
+.result {
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--accent);
+    margin-top: 10px;
+}
+
+label {
+    display: block;
+    font-size: 0.8rem;
+    margin-bottom: 10px;
+    color: #aaa;
+}
+
+input {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--border);
+    color: white;
+    font-size: 1.2rem;
+    padding: 5px 0;
+    outline: none;
+}
+
+input:focus {
+    border-color: var(--accent);
+}
+
+/* Interactive Cursor Glow */
+.cursor {
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(0, 255, 204, 0.1) 0%, transparent 70%);
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+}
